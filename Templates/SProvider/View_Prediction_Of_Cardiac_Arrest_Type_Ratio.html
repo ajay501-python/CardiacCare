@@ -1,0 +1,157 @@
+{% extends 'SProvider/design_1.html' %}
+{% block researchblock %}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    :root {
+        --primary: #8e44ad;
+        --secondary: #3498db;
+        --accent: #e74c3c;
+        --light: #f8f9fa;
+        --dark: #2c3e50;
+    }
+    
+    body {
+        background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        position: relative;
+    }
+    
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(44, 62, 80, 0.85);
+        z-index: -1;
+    }
+    
+    .results-container {
+        background-color: rgba(255, 255, 255, 0.97);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        margin: 40px auto;
+        max-width: 900px;
+    }
+    
+    .results-header {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .results-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        border-radius: 2px;
+    }
+    
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+    
+    .results-table th {
+        background-color: var(--primary);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .results-table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .results-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .results-table tr:hover {
+        background-color: #f0f0f0;
+    }
+    
+    .condition-type {
+        font-weight: 600;
+        color: var(--dark);
+    }
+    
+    .condition-ratio {
+        font-weight: 700;
+        color: var(--accent);
+        font-family: monospace;
+        font-size: 1.1rem;
+    }
+    
+    .highlight-row {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { background-color: rgba(142, 68, 173, 0.05); }
+        50% { background-color: rgba(142, 68, 173, 0.15); }
+        100% { background-color: rgba(142, 68, 173, 0.05); }
+    }
+    
+    @media (max-width: 768px) {
+        .results-container {
+            padding: 25px;
+            margin: 20px;
+        }
+        
+        .results-header {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<div class="results-container">
+    <h1 class="results-header">
+        <i class="fas fa-heartbeat"></i> Cardiac Arrest Type Detection Ratios
+    </h1>
+    
+    <table class="results-table">
+        <thead>
+            <tr>
+                <th><i class="fas fa-book"></i>Si</th>
+                <th><i class="fas fa-heartbeat"></i> Cardiac Arrest Type</th>
+                <th><i class="fas fa-percentage"></i> Detection Ratio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i,object in objs %}
+            <tr class="{% cycle '' 'highlight-row' %}">
+                <td style="color: black;">{{i|add:1}}</td>
+                <td class="condition-type">{{object.names}}</td>
+                <td class="condition-ratio">{{object.ratio}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

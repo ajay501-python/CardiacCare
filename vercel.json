@@ -1,0 +1,13 @@
+{
+    "builds": [{
+        "src": "A_Machine_Learning_Approach_Using_Statistical_Models/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.13" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "A_Machine_Learning_Approach_Using_Statistical_Models/wsgi.py"
+        }
+    ]
+}

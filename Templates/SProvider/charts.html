@@ -1,0 +1,200 @@
+{% extends 'SProvider/design_1.html' %}
+{% block researchblock %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .dashboard-container {
+        display: flex;
+        min-height: calc(100vh - 60px);
+    }
+    
+    .sidemenu {
+        width: 250px;
+        background: #7d3c98;
+        padding: 20px 0;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        border-radius: 20px;
+    }
+    
+    .chart-container {
+        flex: 1;
+        padding: 30px;
+        background: #fff;
+        border-radius: 20px;
+    }
+    
+    .chart-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+    }
+    
+    .chart-nav a {
+        display: block;
+        padding: 12px 20px;
+        color: #ecf0f1;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    
+    .chart-nav a:hover {
+        background: #7d3c98;
+        transform: translateX(5px);
+    }
+    
+    .chart-nav a.active {
+        background: #3498db;
+    }
+    
+    .chart-title {
+        color: #7d3c98;
+        margin-bottom: 30px;
+        font-weight: 600;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+    
+    #chartContainer {
+
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        padding: 20px;
+    }
+    
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .chart-type-indicator {
+        margin-top: 0%;
+        background: #3498db;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+</style>
+
+<script>
+window.onload = function() {
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        backgroundColor: "transparent",
+        title: {
+            text: "Service Provider Analytics",
+            fontFamily: "Segoe UI",
+            fontWeight: "normal",
+            fontSize: 24,
+            padding: 10
+        },
+        axisX: {
+            title: "Categories",
+            titleFontSize: 16
+        },
+        axisY: {
+            title: "Percentage",
+            titleFontSize: 16,
+            suffix: "%"
+        },
+        toolTip: {
+            shared: true,
+            backgroundColor: "#2c3e50",
+            borderThickness: 0,
+            cornerRadius: 5,
+            fontColor: "#ffffff"
+        },
+        legend: {
+            cursor: "pointer",
+            itemclick: toggleDataSeries,
+            verticalAlign: "top",
+            horizontalAlign: "center",
+            fontSize: 14
+        },
+        data: [{
+            {% if chart_type == "line" %}
+                type: "line",
+                lineColor: "#3498db",
+                markerType: "circle",
+                markerSize: 8,
+                markerColor: "#2980b9",
+            {% elif chart_type == "pie" %}
+                type: "pie",
+                startAngle: 45,
+                showInLegend: true,
+                indexLabelFontSize: 14,
+                indexLabelPlacement: "inside",
+                indexLabel: "{label} ({y}%)",
+            {% elif chart_type == "spline" %}
+                type: "spline",
+                lineColor: "#e74c3c",
+                markerType: "square",
+                markerSize: 8,
+                markerColor: "#c0392b",
+            {% endif %}
+            color: "#2c3e50",
+            yValueFormatString: "##0.00\"%\"",
+            dataPoints: [
+                {% for o in form %}
+                    {y: {{o.dcount}}, label: "{{o.names}}"},
+                {% endfor %}
+            ]
+        }]
+    });
+    
+    chart.render();
+    
+    function toggleDataSeries(e) {
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        } else {
+            e.dataSeries.visible = true;
+        }
+        chart.render();
+    }
+}
+</script>
+
+<div class="dashboard-container">
+    <div class="sidemenu">
+        <div class="chart-nav">
+            <h3 style="color:#ecf0f1; padding: 0 20px; margin-bottom: 20px;">Chart Types</h3>
+            <a href="{% url 'charts' 'pie' %}" {% if chart_type == "pie" %}class="active"{% endif %}>
+                <i class="fas fa-chart-pie"></i> Pie Chart
+            </a>
+            <a href="{% url 'charts' 'line' %}" {% if chart_type == "line" %}class="active"{% endif %}>
+                <i class="fas fa-chart-line"></i> Line Chart
+            </a>
+            <a href="{% url 'charts' 'spline' %}" {% if chart_type == "spline" %}class="active"{% endif %}>
+                <i class="fas fa-chart-area"></i> Spline Chart
+            </a>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <div class="chart-header">
+            <h2 class="chart-title">Data Visualization Dashboard</h2>
+            <span class="chart-type-indicator">
+                {% if chart_type == "pie" %}PIE{% endif %}
+                {% if chart_type == "line" %}LINE{% endif %}
+                {% if chart_type == "spline" %}SPLINE{% endif %} CHART
+            </span>
+        </div>
+        <div id="chartContainer"></div>
+    </div>
+</div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}
