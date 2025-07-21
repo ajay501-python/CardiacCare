@@ -15,4 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'A_Machine_Learning_Approach_Usi
 
 application = get_wsgi_application()
 
-app=application
+app = application
