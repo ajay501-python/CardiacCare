@@ -7,7 +7,7 @@
     "routes":[
         {
             "src":"/(.*)",
-            "dest":"A_Machine_Learning_Approach_Using_Statistical_Models/A_Machine_Learning_Approach_Using_Statistical_Models/wsgi.py"
+            "dest":"A_Machine_Learning_Approach_Using_Statistical_Models/wsgi.py"
         }
     ]
 }
