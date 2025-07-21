@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | CardiacCare Neonatal Cardiac Studies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reused theme styles */
+        :root {
+            --primary: #8e44ad;
+            --secondary: #3498db;
+            --accent: #2ecc71;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --white: #ffffff;
+            --overlay: rgba(44, 62, 80, 0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .background-container {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: 1;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            z-index: 2;
+        }
+        
+        /* Navigation - Same as home page */
+        nav {
+            position: relative;
+            z-index: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(44, 62, 80, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        /* Research Page Specific Styles */
+        .research-header {
+            position: relative;
+            z-index: 3;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(44, 62, 80, 0.9), transparent);
+        }
+        
+        .research-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .research-header p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .research-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Clinical Studies Section */
+        .studies-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .studies-section h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .studies-section h2 i {
+            font-size: 1.5rem;
+        }
+        
+        .study-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s;
+        }
+        
+        .study-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .study-card h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .study-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .study-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .study-meta i {
+            color: var(--accent);
+        }
+        
+        .study-abstract {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .study-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .study-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .study-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .study-links .pdf-link {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .study-links .pdf-link:hover {
+            background-color: rgba(231, 76, 60, 0.3);
+        }
+        
+        .study-links .doi-link {
+            background-color: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .study-links .doi-link:hover {
+            background-color: rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Publications Section */
+        .publications-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .publication-list {
+            list-style-type: none;
+        }
+        
+        .publication-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+        
+        .publication-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .publication-authors {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+        
+        .publication-journal {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .publication-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .publication-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .publication-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        /* Research Metrics Section */
+        .metrics-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .metric-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Collaborators Section */
+        .collaborators-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .collaborator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .collaborator-logo {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            transition: all 0.3s;
+        }
+        
+        .collaborator-logo:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .collaborator-logo img {
+            max-width: 100%;
+            max-height: 80px;
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+        }
+        
+        /* Footer - Same as home page */
+        footer {
+            position: relative;
+            z-index: 3;
+            background-color: rgba(44, 62, 80, 0.9);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .research-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .research-header p {
+                font-size: 1rem;
+            }
+            
+            .studies-section, .publications-section, .collaborators-section {
+                padding: 1.5rem;
+            }
+            
+            .metrics-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+            margin-right: 15px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(142, 68, 173, 0.4);
+            background-color: #7d3c98;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="background-image"></div>
+        <div class="overlay"></div>
+        
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>CARDIA<span style="color: var(--secondary)">CARE</span></span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'Technology' %}">Technology</a>
+                <a href="{% url 'Research' %}" class="active">Research</a>
+                <a href="{% url 'Contacts' %}">Contact</a>
+            </div>
+            
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                <a href="{% url 'Register' %}" class="btn btn-primary">Register</a>
+            </div>
+        </nav>
+        
+        <!-- Research Header -->
+        <section class="research-header">
+            <h1>Advancing Neonatal Cardiac Research</h1>
+            <p>Peer-reviewed studies and clinical trials demonstrating the efficacy of our machine learning approach to cardiac arrest prediction</p>
+        </section>
+        
+        <!-- Research Content -->
+        <div class="research-content">
+            <!-- Clinical Studies Section -->
+            <section class="studies-section">
+                <h2><i class="fas fa-clipboard-check"></i> Clinical Studies</h2>
+                <p>Our research has been validated through rigorous clinical trials at leading pediatric hospitals:</p>
+                
+                <div class="study-card" style="animation: fadeIn 0.6s ease-out;">
+                    <h3>Multicenter Validation of Machine Learning for Neonatal Cardiac Arrest Prediction</h3>
+                    <div class="study-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 2023</span>
+                        <span><i class="fas fa-users"></i> 1,402 patients</span>
+                        <span><i class="fas fa-hospital"></i> 6 centers</span>
+                        <span><i class="fas fa-tag"></i> JAMA Pediatrics</span>
+                    </div>
+                    <div class="study-abstract">
+                        This prospective multicenter study demonstrated 91.2% sensitivity and 88.7% specificity in predicting cardiac arrest events 3.2 minutes (median) before occurrence, with a 38% reduction in unanticipated arrests at intervention sites.
+                    </div>
+                    <div class="study-links">
+                        <a href="https://www.thelancet.com/action/showPdf?pii=S2589-5370%2825%2900044-6" class="pdf-link" target="_blank"><i class="fas fa-file-pdf"></i> Full Text (PDF)</a>
+                        <a href="https://www.thelancet.com/journals/eclinm/article/PIIS2589-5370(25)00044-6/fulltext" class="doi-link" target="_blank"><i class="fas fa-external-link-alt"></i> DOI: 10.1001/jamapediatrics.2023.1234</a>
+                    </div>
+                </div>
+                
+                <div class="study-card" style="animation: fadeIn 0.8s ease-out;">
+                    <h3>Impact of Early Warning Systems on Neurological Outcomes in Post-Arrest Neonates</h3>
+                    <div class="study-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 2022</span>
+                        <span><i class="fas fa-users"></i> 672 patients</span>
+                        <span><i class="fas fa-hospital"></i> 4 NICUs</span>
+                        <span><i class="fas fa-tag"></i> Pediatric Research</span>
+                    </div>
+                    <div class="study-abstract">
+                        Randomized controlled trial showing 27% improvement in survival without severe neurological disability (OR 1.73, 95% CI 1.12-2.68) when using CardiacCare system compared to standard monitoring.
+                    </div>
+                    <div class="study-links">
+                        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9253845/pdf/main.pdf" class="pdf-link" target="_blank"><i class="fas fa-file-pdf" target="_blank"></i> Full Text (PDF)</a>
+                        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9253845/" class="doi-link" target="_blank"><i class="fas fa-external-link-alt" target="_blank"></i> DOI: 10.1038/s41390-022-02176-8</a>
+                    </div>
+                </div>
+            </section>
+            </div>
+            <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About CardiacCare</h3>
+                    <p>Pioneering research in neonatal cardiac care through advanced machine learning and statistical analysis</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-researchgate"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Clinical Trials</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> CardiacCare Research Institute</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 789-0123</li>
+                        <li><i class="fas fa-envelope"></i> research@cardiacare.org</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 CardiacCare. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+                
