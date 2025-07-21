@@ -1,5 +1,5 @@
 {
-    "build":[{
+    "builds":[{
         "src":"A_Machine_Learning_Approach_Using_Statistical_Models/wsgi.py",
         "use":"@vercel/python",
         "config":{"maxlambdaSize":"15mb","runtime":"python3.13.5"}
